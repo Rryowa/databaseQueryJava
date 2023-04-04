@@ -22,6 +22,7 @@ public class JavaSchoolStarter{
             List<Map<String,Object>> result = new ArrayList<>();
             Map<String,Object> row = new HashMap<>();
             result.add(insert(row, trimRequest.replaceAll("insertvalues", "").split(",")));
+            //update data
             data.add(result.get(0));
             return result;
         }
@@ -35,6 +36,11 @@ public class JavaSchoolStarter{
         else if (trimRequest.contains("select")) {
             return select(trimRequest.replaceAll("selectwhere", ""));
         }
+
+        else if (trimRequest.contains("delete")) {
+            return delete(trimRequest.replaceAll("deletewhere", ""));
+        }
+
         else {
             return data;
         }
@@ -68,7 +74,7 @@ public class JavaSchoolStarter{
     }
 
 
-    //"active=true,cost=100", "id<3andid>1"]
+    //"active=false,cost=100", "id<3andid>1"]
     public List<Map<String,Object>> update(String[] tokensWhere) {
         List<Map<String,Object>> result = new ArrayList<>();
         List<Map<String,Object>> selected = select(tokensWhere[1]);
@@ -85,6 +91,7 @@ public class JavaSchoolStarter{
         return result;
     }
 
+
     public List<Map<String,Object>> select(String request) {
         List<Map<String,Object>> result = new ArrayList<>();
         //input: "age>25 and age<=40 or age>30 and age<80 and age>25"
@@ -99,7 +106,7 @@ public class JavaSchoolStarter{
 
         //parsed: {age>25 and age<=40, age>30 and age<80 and age>25}
         for (String token : parsed){
-            System.out.println("parsed: " + token);
+            //System.out.println("parsed: " + token);
             
             if (token.contains("and")){
                 
@@ -135,5 +142,40 @@ public class JavaSchoolStarter{
         }
         //rows 0 and 2
         return result;
+    }
+
+    public List<Map<String,Object>> delete(String request) {
+        List<Map<String,Object>> result = new ArrayList<>();
+        List<Map<String,Object>> selected = select(request);
+
+        for (Map<String, Object> mapSelected : selected) {
+            for (Map<String, Object> map : data) {
+        
+                if (map.equals(mapSelected)){
+                    result.add(map);
+                    data.remove(map);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public void print(List<Map<String,Object>> result) {
+        for (Map<String, Object> map : result) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.print(entry.getKey() + ":" + entry.getValue().toString() + ", ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void printData() {
+        for (Map<String, Object> map : data) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                System.out.print(entry.getKey() + ":" + entry.getValue().toString() + ", ");
+            }
+            System.out.println();
+        }
     }
 }

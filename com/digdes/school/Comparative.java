@@ -16,15 +16,15 @@ public class Comparative{
         ArrayList<ArrayList<Integer>> listOflistOfAndIndexes = new ArrayList<ArrayList<Integer>>();
 
         //age>30 and age<80 and age>25
-        for (String token : request.split("and")){
+        for (String token : request.split("and")){           
             listOflistOfAndIndexes.add(compare(token));
         }
-        //listOfAndIndexes = {{2}, {0, 1, 2}, {1, 2}}
+        //listOflistOfAndIndexes = {{2}, {0, 1, 2}, {1, 2}}
 
         //Intersection ArrayList's of indexes of matching rows;
         //{2}
         ArrayList<Integer> current = listOflistOfAndIndexes.get(0);
-        
+
         //retain all intersection indexes(rows from data)
         for (int i = 1; i < listOflistOfAndIndexes.size(); i++) {
             //{0, 1, 2}
@@ -44,8 +44,7 @@ public class Comparative{
         //if request satisfied - add to list
         for (int i = 0; i < data.size(); i++) {
 
-            Map<String, Object> map = data.get(i);
-            
+            Map<String, Object> map = data.get(i);           
             if (request.contains(">=")) {
                 if (!(smaller(request.split(">="), map))){
                     indexes.add(i);
@@ -82,6 +81,7 @@ public class Comparative{
                 }
             }
         }
+
         return indexes;
     }
 
@@ -89,10 +89,9 @@ public class Comparative{
         String name = token[0];
         String value = token[1];
         
-        if (map.get(name).equals(value)) {
+        if (map.get(name).toString().equals(value)) {
             return true;
         }
-        //TODO: return ERROR
         return false;
     }
 
@@ -115,7 +114,6 @@ public class Comparative{
                 return true;
             }
         }
-        //TODO: return ERROR
         return false;
     }
 
