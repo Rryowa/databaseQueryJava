@@ -1,8 +1,10 @@
 # databaseQueryJava
-Database query language (Insert, Select, Update, Delete) written in Java!
-{Нет обработки ошибок и ilike}
+Database query language (Insert, Select, Update, Delete) written in Java! (All commands are case insensitive '^_^)
 
-~You can: 
+{Отсутствует like и ilike}
+
+~You can:
+
   - Insert values (with "Insert values" token).
   - Update values (with "Update values" token and "where" token), 
     that specifies which rows to update, in relation to the query after the "where" token.

@@ -92,10 +92,15 @@ public class Comparative{
         if (map.get(name).toString().equals(value)) {
             return true;
         }
-        return false;
+        else if ((map.get(name) == null) && (value == "0")){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public boolean greater(String[] token, Map<String, Object> map) {
+    public boolean greater(String[] token, Map<String, Object> map) throws RuntimeException{
         String name = token[0];
         String value = token[1];
         
@@ -106,6 +111,7 @@ public class Comparative{
             if (mapValue > tokenValue) {
                 return true;
             }
+            return false;
         }
         else if (mapVal instanceof Double){
             Double mapValue = Double.parseDouble(mapVal.toString());
@@ -113,11 +119,17 @@ public class Comparative{
             if (mapValue > tokenValue) {
                 return true;
             }
+            return false;
         }
-        return false;
+        else if (mapVal == null){
+            return false;
+        }
+        else {
+            throw new RuntimeException("Type error - name:" + name + ", value:" + value + ", mapVal:" + mapVal);
+        }
     }
 
-    public boolean smaller(String[] token, Map<String, Object> map) {
+    public boolean smaller(String[] token, Map<String, Object> map) throws RuntimeException{
         String name = token[0];
         String value = token[1];
         
@@ -128,6 +140,7 @@ public class Comparative{
             if (mapValue < tokenValue) {
                 return true;
             }
+            return false;
         }
         else if (mapVal instanceof Double){
             Double mapValue = Double.parseDouble(mapVal.toString());
@@ -135,8 +148,13 @@ public class Comparative{
             if (mapValue < tokenValue) {
                 return true;
             }
+            return false;
         }
-        //TODO: return ERROR
-        return false;
+        else if (mapVal == null){
+            return false;
+        }
+        else {
+            throw new RuntimeException("Type error - name:" + name + ", value:" + value + ", mapVal:" + mapVal);
+        }
     }
 }

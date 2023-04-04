@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
+
 public class JavaSchoolStarter{
     List<Map<String,Object>> data = new ArrayList<>();
 
@@ -14,7 +16,7 @@ public class JavaSchoolStarter{
 
     }
 
-    public List<Map<String,Object>> execute(String request){
+    public List<Map<String,Object>> execute(String request) throws RuntimeException{
         String trimRequest = request.toLowerCase().replaceAll(" ", "").replaceAll("'", "");
         
         //"insertvalueslastname=федоров,id=3,age=40,active=true"
@@ -27,12 +29,10 @@ public class JavaSchoolStarter{
             return result;
         }
 
-        //"updatevaluesactive=true,cost=100whereid<3andid>1"
         else if (trimRequest.contains("update")) {
             return update(trimRequest.replaceAll("updatevalues", "").split("where"));
         }
        
-        //"SELECTWHERE'age'>=30and'lastName'ilike'%п%'"
         else if (trimRequest.contains("select")) {
             return select(trimRequest.replaceAll("selectwhere", ""));
         }
@@ -42,7 +42,7 @@ public class JavaSchoolStarter{
         }
 
         else {
-            return data;
+            throw new RuntimeException("There is no insert, update, select or delete in your request");
         }
     }
 
